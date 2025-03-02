@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-grey: #ccc;
+  --color-sun: #CDAD5A;
+  --color-sky-electric: #0874C1;
+  --color-sky-neutral: #6495ED;
+  --color-sky-dull: #81A5E7;
+  --color-cloud-light: #AAAAAA;
+  --color-cloud-dark: #454D54;
+}
+
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
