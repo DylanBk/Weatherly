@@ -7,7 +7,7 @@ export default function App() {
 
   const [userLocation, setUserLocation] = useState('')
   const [weatherData, setWeatherData] = useState({})
-  const [theme, setTheme] = useState('bg-[#f5f5f5]');
+  const [theme, setTheme] = useState('bg-gradient-to-b from-gray-800 to-gray-900');
 
   useEffect(() => {
     const reverseGeocode = async (lat, lon) => { // uses latitude and longitude to find user's closest settlement
