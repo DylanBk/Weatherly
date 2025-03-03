@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
 import Overview from "./components/Overview";
+import Interpreter from "./components/Interpreter";
 
 export default function App() {
-  const apiKey = import.meta.env.VITE_API_KEY
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY
 
   const [userLocation, setUserLocation] = useState('')
   const [weatherData, setWeatherData] = useState({})
@@ -73,7 +74,7 @@ export default function App() {
     if (userLocation) {
       getWeatherData();
     };
-  }, [userLocation]);
+  }, [userLocation, apiKey]);
 
   const selectTheme = (code) => {
     // build tailwind gradient based on weather conditions
@@ -120,6 +121,7 @@ export default function App() {
       <h1 className="w-full p-4 text-5xl text-white">Weatherly</h1>
 
       <Overview weatherData={weatherData} />
+      <Interpreter weatherData={weatherData} />
     </div>
   );
 };
