@@ -8,19 +8,16 @@
   --color-sky-dull: #81A5E7;
   --color-cloud-light: #AAAAAA;
   --color-cloud-dark: #454D54;
-}
-
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-snow: #fefefe;
+  --color-night: #222;
 }
 
 * {
-  padding: 0;
-  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
   box-sizing: border-box;
 }
