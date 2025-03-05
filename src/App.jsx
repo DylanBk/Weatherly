@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import Overview from "./components/Overview";
 import Interpreter from "./components/Interpreter";
+import LocationForm from "./components/LocationForm";
 
 export default function App() {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY
@@ -122,6 +123,7 @@ export default function App() {
 
       <Overview weatherData={weatherData} />
       <Interpreter weatherData={weatherData} />
+      <LocationForm />
     </div>
   );
 };

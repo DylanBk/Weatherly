@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-grey: #ccc;
+  --color-grey: #ddd;
   --color-sun: #CDAD5A;
   --color-sky-electric: #0874C1;
   --color-sky-neutral: #6495ED;
