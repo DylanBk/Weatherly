@@ -57,15 +57,30 @@ export default function App() {
   useEffect(() => {
     const getWeatherData = async () => { // uses the settlement returned from reverseGeocode to fetch the weather for that area
       try {
-        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${userLocation}&aqi=yes`;
-        const res = await fetch(url, {
-          method: 'GET'
+        const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${userLocation}&aqi=no`;
+        const res1 = await fetch(url1, {
+          method: 'GET',
         })
-        .then(res => res.json());
+        .then(res1 => res1.json());
 
-        if (res.current) {
-          setWeatherData(res.current);
-          selectTheme(res.current.condition.code)
+        const url2 = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${userLocation}&aqi=no`
+        const res2 = await fetch(url2, {
+          method: 'GET',
+        })
+        .then(res2 => res2.json())
+        console.log(res1, res2)
+        if (res1 && res2) {
+          setWeatherData({
+            tempC: res1.current.temp_c,
+            tempF: res1.current.temp_f,
+            windMph: res1.current.wind_mph,
+            windKph: res1.current.wind_kph,
+            cloudCover: res1.current.cloud,
+            humidity: res1.current.humidity,
+            precipitation: res2.forecast.forecastday[0].day.daily_chance_of_rain,
+            condition: res1.current.condition.text,
+          })
+          selectTheme(res1.current.condition.code)
         };
       } catch(err) {
         console.error(err);
@@ -76,6 +91,38 @@ export default function App() {
       getWeatherData();
     };
   }, [userLocation, apiKey]);
+
+  const handleUserLocation = async (location) => {
+    try {
+      const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
+        const res1 = await fetch(url1, {
+          method: 'GET',
+        })
+        .then(res1 => res1.json());
+
+        const url2 = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${userLocation}&aqi=no`
+        const res2 = await fetch(url2, {
+          method: 'GET',
+        })
+        .then(res2 => res2.json())
+        console.log(res1, res2)
+        if (res1 && res2) {
+          setWeatherData({
+            tempC: Math.round(res1.current.temp_c),
+            tempF: Math.round(res1.current.temp_f),
+            windMph: res1.current.wind_mph,
+            windKph: res1.current.wind_kph,
+            cloudCover: res1.current.cloud,
+            humidity: res1.current.humidity,
+            precipitation: res2.forecast.forecastday[0].day.daily_chance_of_rain,
+            condition: res1.current.condition.text,
+          })
+          selectTheme(res1.current.condition.code)
+        };
+    } catch(err) {
+      console.error(err)
+    }
+  }
 
   const selectTheme = (code) => {
     // build tailwind gradient based on weather conditions
@@ -97,8 +144,6 @@ export default function App() {
     const darkCloud = 'bg-gradient-to-b from-cloud-dark to-cloud-light';
     const snow = 'bg-gradient-to-b from-cloud-light to-snow';
 
-    console.log('code', code)
-
     switch (true) {
       case clearArr.includes(code):
         setTheme(clear)
@@ -113,17 +158,17 @@ export default function App() {
         setTheme(snow)
         break;
     }
-
-    console.log(theme)
   };
 
   return (
     <div className={`h-screen w-full ${theme}`}>
       <h1 className="w-full p-4 text-5xl text-white">Weatherly</h1>
 
-      <Overview weatherData={weatherData} />
+      <div className="flex flex-col gap-4">
+        <Overview weatherData={weatherData} />
+        <LocationForm handleUserLocation={handleUserLocation} />
+      </div>
       <Interpreter weatherData={weatherData} />
-      <LocationForm />
     </div>
   );
 };

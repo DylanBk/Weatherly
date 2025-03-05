@@ -4,18 +4,15 @@ export default function Overview(props) {
     const weatherData = props.weatherData;
 
     const [temp, setTemp] = useState(null);
-    const [humidity, setHumidity] = useState(null)
-    const [cloudCover, setCloudCover] = useState(null);
     const [windSpeed, setWindspeed] = useState(null);
     const [rainChance, setRainChance] = useState(null);
 
     useEffect(() => {
-        setTemp(weatherData.temp_c);
-        setHumidity(weatherData.humidity ? weatherData.humidity : 0);
-        setCloudCover(weatherData.cloud ? weatherData.cloud : 0);
-        setWindspeed(weatherData.wind_mph);
-        setRainChance((humidity + cloudCover) / 2);
-    }, [weatherData, humidity, cloudCover])
+        console.log('weather', weatherData)
+        setTemp(weatherData.tempC);
+        setWindspeed(weatherData.windMph);
+        setRainChance(weatherData.precipitation);
+    }, [weatherData])
 
     return (
         <div className="w-fit flex flex-row gap-28 items-center mt-44 mx-auto text-2xl text-white">

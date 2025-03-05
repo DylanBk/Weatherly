@@ -1,32 +1,30 @@
 import { useState } from "react";
 
-export default function LocationForm() {
-    const [formData, setFormData] = useState({});
+export default function LocationForm({handleUserLocation}) {
+    const [formData, setFormData] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(formData)
-    };
-
-    const handleChange = (e) => {
-        setFormData({
-            [e.target.name]: e.target.value
-        });
+        if (formData) {
+            handleUserLocation(formData)
+        } else {
+            alert("location can't be empty")
+        };
     };
 
     return (
             <form
-                className="w-96 flex flex-row bg-red-200"
+                className="w-96 flex flex-row justify-between rounded-2xl mx-auto bg-white/30"
                 onSubmit={handleSubmit}>
                 <input
                     name="location"
-                    className=""
+                    className="w-full px-4 py-2 text-white"
                     type="text"
                     placeholder="Enter your location..."
-                    onChange={handleChange}
+                    onChange={(e) => setFormData(e.target.value)}
                 />
-                <button className="p-2" type="submit">Search</button>
+                <button className="w-fit p-4 rounded-r-2xl bg-[#eee] hover:bg-grey cursor-pointer transition-colors duration-300" type="submit">Search</button>
             </form>
     );
 };
