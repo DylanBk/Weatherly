@@ -8,7 +8,6 @@ export default function Overview(props) {
     const [rainChance, setRainChance] = useState(null);
 
     useEffect(() => {
-        console.log('weather', weatherData)
         setTemp(weatherData.tempC);
         setWindspeed(weatherData.windMph);
         setRainChance(weatherData.precipitation);

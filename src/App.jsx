@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Overview from "./components/Overview";
 import Interpreter from "./components/Interpreter";
 import LocationForm from "./components/LocationForm";
+import Footer from "./components/Footer";
 
 export default function App() {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY
@@ -10,6 +11,7 @@ export default function App() {
   const [userLocation, setUserLocation] = useState('')
   const [weatherData, setWeatherData] = useState({})
   const [theme, setTheme] = useState('bg-gradient-to-b from-gray-800 to-gray-900');
+  const [isCooldown, setIsCooldown] = useState(false);
 
   useEffect(() => {
     const reverseGeocode = async (lat, lon) => { // uses latitude and longitude to find user's closest settlement
@@ -56,7 +58,15 @@ export default function App() {
 
   useEffect(() => {
     const getWeatherData = async () => { // uses the settlement returned from reverseGeocode to fetch the weather for that area
+
+      if (isCooldown) {
+        window.alert("Please wait a few seconds before trying again")
+        return;
+      };
+
       try {
+        setIsCooldown(true)
+
         const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${userLocation}&aqi=no`;
         const res1 = await fetch(url1, {
           method: 'GET',
@@ -68,7 +78,7 @@ export default function App() {
           method: 'GET',
         })
         .then(res2 => res2.json())
-        console.log(res1, res2)
+
         if (res1 && res2) {
           setWeatherData({
             tempC: res1.current.temp_c,
@@ -88,24 +98,35 @@ export default function App() {
     };
 
     if (userLocation) {
+      setIsCooldown(true);
+      setTimeout(() => setIsCooldown(false), 30000); // 30 sec cooldown
+
       getWeatherData();
     };
   }, [userLocation, apiKey]);
 
   const handleUserLocation = async (location) => {
+
+    if (isCooldown) {
+      window.alert("Please wait a few seconds before trying again")
+      return;
+    };
+
     try {
+      setIsCooldown(true)
+
       const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
         const res1 = await fetch(url1, {
           method: 'GET',
         })
         .then(res1 => res1.json());
 
-        const url2 = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${userLocation}&aqi=no`
+        const url2 = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&aqi=no`
         const res2 = await fetch(url2, {
           method: 'GET',
         })
         .then(res2 => res2.json())
-        console.log(res1, res2)
+
         if (res1 && res2) {
           setWeatherData({
             tempC: Math.round(res1.current.temp_c),
@@ -168,7 +189,10 @@ export default function App() {
         <Overview weatherData={weatherData} />
         <LocationForm handleUserLocation={handleUserLocation} />
       </div>
+
       <Interpreter weatherData={weatherData} />
+
+      <Footer />
     </div>
   );
 };
