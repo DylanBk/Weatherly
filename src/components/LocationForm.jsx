@@ -15,7 +15,7 @@ export default function LocationForm({handleUserLocation}) {
 
     return (
             <form
-                className="w-96 flex flex-row justify-between rounded-2xl mx-auto bg-white/30"
+                className="w-5/6 sm:w-96 flex flex-row justify-between rounded-2xl mx-auto bg-white/30"
                 onSubmit={handleSubmit}>
                 <input
                     name="location"

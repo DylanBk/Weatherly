@@ -6,10 +6,10 @@ import LocationForm from "./components/LocationForm";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const apiKey = import.meta.env.VITE_WEATHER_API_KEY
+  const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
-  const [userLocation, setUserLocation] = useState('')
-  const [weatherData, setWeatherData] = useState({})
+  const [userLocation, setUserLocation] = useState('');
+  const [weatherData, setWeatherData] = useState({});
   const [theme, setTheme] = useState('bg-gradient-to-b from-gray-800 to-gray-900');
   const [isCooldown, setIsCooldown] = useState(false);
 
@@ -43,7 +43,7 @@ export default function App() {
         });
 
         const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude
+        const lon = pos.coords.longitude;
 
         const locationName = await reverseGeocode(lat, lon);
 
@@ -53,7 +53,7 @@ export default function App() {
       };
     };
 
-    getUserLocation()
+    getUserLocation();
   }, []);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function App() {
       };
 
       try {
-        setIsCooldown(true)
+        setIsCooldown(true);
 
         const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${userLocation}&aqi=no`;
         const res1 = await fetch(url1, {
@@ -77,7 +77,7 @@ export default function App() {
         const res2 = await fetch(url2, {
           method: 'GET',
         })
-        .then(res2 => res2.json())
+        .then(res2 => res2.json());
 
         if (res1 && res2) {
           setWeatherData({
@@ -89,8 +89,8 @@ export default function App() {
             humidity: res1.current.humidity,
             precipitation: res2.forecast.forecastday[0].day.daily_chance_of_rain,
             condition: res1.current.condition.text,
-          })
-          selectTheme(res1.current.condition.code)
+          });
+          selectTheme(res1.current.condition.code);
         };
       } catch(err) {
         console.error(err);
@@ -108,12 +108,12 @@ export default function App() {
   const handleUserLocation = async (location) => {
 
     if (isCooldown) {
-      window.alert("Please wait a few seconds before trying again")
+      window.alert("Please wait a few seconds before trying again");
       return;
     };
 
     try {
-      setIsCooldown(true)
+      setIsCooldown(true);
 
       const url1 = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
         const res1 = await fetch(url1, {
@@ -125,7 +125,7 @@ export default function App() {
         const res2 = await fetch(url2, {
           method: 'GET',
         })
-        .then(res2 => res2.json())
+        .then(res2 => res2.json());
 
         if (res1 && res2) {
           setWeatherData({
@@ -137,17 +137,16 @@ export default function App() {
             humidity: res1.current.humidity,
             precipitation: res2.forecast.forecastday[0].day.daily_chance_of_rain,
             condition: res1.current.condition.text,
-          })
-          selectTheme(res1.current.condition.code)
+          });
+          selectTheme(res1.current.condition.code);
         };
     } catch(err) {
-      console.error(err)
-    }
-  }
+      console.error(err);
+    };
+  };
 
   const selectTheme = (code) => {
-    // build tailwind gradient based on weather conditions
-    //   --color-grey: #ccc;
+    // build gradient based on weather conditions
     // --color-sun: #CDAD5A;
     // --color-sky-electric: #0874C1;
     // --color-sky-neutral: #6495ED;
@@ -178,14 +177,14 @@ export default function App() {
       case snowArr.includes(code):
         setTheme(snow)
         break;
-    }
+    };
   };
 
   return (
     <div className={`h-screen w-full ${theme}`}>
-      <h1 className="w-full p-4 text-5xl text-white">Weatherly</h1>
+      <h1 className="w-fit pt-4 lg:p-4 mx-auto lg:mx-0 text-5xl text-white">Weatherly</h1>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-col-reverse lg:flex-col gap-14 lg:gap-4 mt-16 sm:mt-28 lg:mt-44">
         <Overview weatherData={weatherData} />
         <LocationForm handleUserLocation={handleUserLocation} />
       </div>
