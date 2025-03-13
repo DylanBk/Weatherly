@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-grey: #ddd;
+  --color-sun: #CDAD5A;
+  --color-sky-electric: #0874C1;
+  --color-sky-neutral: #6495ED;
+  --color-sky-dull: #81A5E7;
+  --color-cloud-light: #AAAAAA;
+  --color-cloud-dark: #454D54;
+  --color-snow: #fefefe;
+  --color-night: #222;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+    background-color: rgb(255, 255, 255, 0.3) !important;
+}
